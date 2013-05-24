@@ -11,11 +11,11 @@ dependencies, you can get the latest version off the master branch:
         "repositories" : {
             "pubnub" : {
                 "type":"git",
-                "url":"https://github.com/vkislichenko/pubnub"
+                "url":"https://github.com/pubnub/php-composer"
             }
         },
         "require": {
-            "vkislichenko/pubnub": "dev-master"
+            "pubnub/pubnub": "dev-master"
         }
     }
 
@@ -25,4 +25,4 @@ Install source from GitHub
 
 To install the source code:
 
-    $ git clone git://github.com/vkislichenko/pubnub.git
+    $ git clone git://github.com/pubnub/php-composer.git

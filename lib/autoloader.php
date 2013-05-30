@@ -3,7 +3,7 @@
  * Simple autoload for stanalone lib
  */
 
-define('PUBNUB_LIB_BASE_DIR', dirname(__FILE__));
+define('PUBNUB_LIB_BASE_DIR', __DIR__);
 
 //autoloader
 function pubnubAutoloader($className)

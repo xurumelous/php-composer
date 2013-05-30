@@ -1,5 +1,5 @@
 <?php
-require_once('../lib/Pubnub/Pubnub.php');
+require_once(__DIR__.'/../lib/autoloader.php');
 
 // TODO: Add SSL version of these tests
 ## ---------------------------------------------------------------------------

@@ -1,5 +1,5 @@
 <?php
-require_once('../lib/Pubnub/Pubnub.php');
+require_once(__DIR__.'/../lib/autoloader.php');
 
 $pubnub    = new \Pubnub\Pubnub( 'demo', 'demo', false , false, false );
 $here      = $pubnub->here_now(array( 'channel' => 'my_channel' ));

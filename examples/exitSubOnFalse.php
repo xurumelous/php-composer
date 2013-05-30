@@ -1,5 +1,5 @@
 <?php
-require_once('../lib/Pubnub/Pubnub.php');
+require_once(__DIR__.'/../lib/autoloader.php');
 
 
 $publish_key   = isset($argv[1]) ? $argv[1] : 'demo';

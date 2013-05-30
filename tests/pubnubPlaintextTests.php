@@ -1,5 +1,5 @@
 <?php
-require_once('Pubnub.php');
+require_once(__DIR__.'/../lib/autoloader.php');
 
 // TODO: Add SSL version of these tests
 ## ---------------------------------------------------------------------------
@@ -21,7 +21,7 @@ $ssl_on        = false;
 ## ---------------------------------------------------------------------------
 ## Create Pubnub Object
 ## ---------------------------------------------------------------------------
-$pubnub = new Pubnub( $publish_key, $subscribe_key, $secret_key, $cipher_key, $ssl_on );
+$pubnub = new \Pubnub\Pubnub( $publish_key, $subscribe_key, $secret_key, $cipher_key, $ssl_on );
 
 ## ---------------------------------------------------------------------------
 ## Define Messaging Channel

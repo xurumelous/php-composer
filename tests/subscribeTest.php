@@ -1,7 +1,7 @@
 <?php
-require_once('Pubnub.php');
+require_once(__DIR__.'/../lib/autoloader.php');
 
-$pubnub = new Pubnub( 'demo', 'demo', false , false, false );
+$pubnub = new \Pubnub\Pubnub( 'demo', 'demo', false , false, false );
 $pubnub->subscribe(array(
     'channel'  => 'testChannel',
     'callback' => function($message) {

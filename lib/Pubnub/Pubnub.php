@@ -21,7 +21,7 @@ class Pubnub {
 	/**
 	 * @var PubnubAES 
 	 */
-	private $AES;
+	public $AES;
 
     private $NEW_STYLE_RESPONSE = true;
     private $PEM_PATH = __DIR__;

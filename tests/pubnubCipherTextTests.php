@@ -1,6 +1,5 @@
 <?php
-
-require_once('Pubnub.php');
+require_once(__DIR__.'/../lib/autoloader.php');
 
 ##
 # php ./pubnubPlaintextTests.php
@@ -20,23 +19,25 @@ $ssl_on        = false;
 $plain_text = "yay!";
 $cipher_text = "q/xJqqN6qbiZMXYmiQC1Fw==";
 
+## ---------------------------------------------------------------------------
+## Create Pubnub Object
+## ---------------------------------------------------------------------------
+$pubnub = new \Pubnub\Pubnub( $publish_key, $subscribe_key, $secret_key, $cipher_key, $ssl_on );
+
+
 ## Encryption Test
-if (decrypt($cipher_text, $cipher_key) == $plain_text) {
+if ($pubnub->AES->decrypt($cipher_text, $cipher_key) == $plain_text) {
     echo "Standard encryption test PASS.\n\n";
 } else
     echo "Standard encryption test FAIL.\n\n";
 
 ## Decryption Test
-if (encrypt($plain_text, $cipher_key) == $cipher_text) {
+if ($pubnub->AES->encrypt($plain_text, $cipher_key) == $cipher_text) {
     echo "Standard decryption test PASS.\n\n";
 } else
     echo "Standard decryption test FAIL.\n\n";
 
 
-## ---------------------------------------------------------------------------
-## Create Pubnub Object
-## ---------------------------------------------------------------------------
-$pubnub = new Pubnub( $publish_key, $subscribe_key, $secret_key, $cipher_key, $ssl_on );
 
 ## ---------------------------------------------------------------------------
 ## Define Messaging Channel
@@ -122,7 +123,7 @@ $history = $pubnub->history(array(
     'channel' => $channel,
     'limit'   => 2
 ));
-echo($history);
+print_r($history);
 echo "\r\n";
 
 ## ---------------------------------------------------------------------------

@@ -1,6 +1,5 @@
 <?php
-
-include('Pubnub.php');
+require_once(__DIR__.'/../lib/autoloader.php');
 
 class PubnubTest extends PHPUnit_Framework_TestCase
 {
@@ -14,7 +13,7 @@ class PubnubTest extends PHPUnit_Framework_TestCase
 
 	private function getObject($config)
 	{
-		return new Pubnub($config['publish_key'],$config['subscribe_key'],$config['secret_key'],$config['cipher_key'],$config['ssl_on']);
+		return new \Pubnub\Pubnub($config['publish_key'],$config['subscribe_key'],$config['secret_key'],$config['cipher_key'],$config['ssl_on']);
 	}
 
 

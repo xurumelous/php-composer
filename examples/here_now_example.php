@@ -1,7 +1,7 @@
 <?php
 require_once(__DIR__.'/../lib/autoloader.php');
 
-$pubnub    = new \Pubnub\Pubnub( 'demo', 'demo', false , false, false );
+$pubnub    = new \Pubnub\Pubnub( 'demo', 'demo', false , false, false, 'IUNDERSTAND.pubnub.com');
 $here      = $pubnub->here_now(array( 'channel' => 'my_channel' ));
 $occupancy = $here['occupancy'];
 $user_ids  = $here['uuids'];

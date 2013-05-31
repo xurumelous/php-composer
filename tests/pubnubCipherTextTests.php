@@ -22,7 +22,7 @@ $cipher_text = "q/xJqqN6qbiZMXYmiQC1Fw==";
 ## ---------------------------------------------------------------------------
 ## Create Pubnub Object
 ## ---------------------------------------------------------------------------
-$pubnub = new \Pubnub\Pubnub( $publish_key, $subscribe_key, $secret_key, $cipher_key, $ssl_on );
+$pubnub = new \Pubnub\Pubnub( $publish_key, $subscribe_key, $secret_key, $cipher_key, $ssl_on, 'IUNDERSTAND.pubnub.com');
 
 
 ## Encryption Test

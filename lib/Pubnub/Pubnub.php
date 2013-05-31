@@ -142,7 +142,7 @@ class Pubnub {
         ## Capture User Input
         $channel = $args['channel'];
 
-        return $this->_request(array(
+        $response = $this->_request(array(
                     'v2',
                     'presence',
                     'sub_key',
@@ -150,6 +150,16 @@ class Pubnub {
                     'channel',
                     $channel
         ));
+		
+		//TODO: <timeout> and <message too large> check
+		if(!is_array($response)){
+			$response = array(
+				'uuids' => array(),
+				'occupancy' => 0,
+			);
+		}
+					
+		return $response;
     }
 
     /**
@@ -267,13 +277,12 @@ class Pubnub {
 
         if ($mode == "presence") {
             return $messages;
-        } elseif ($mode == "default") {
+        } elseif ($mode == "default" && is_array($messages)) {
             $messageArray = $messages;
             $receivedMessages = $this->decodeDecryptLoop($messageArray);
-        } elseif ($mode == "detailedHistory") {
-
-            $decodedMessages = $this->decodeDecryptLoop($messages);
-            $receivedMessages = array($decodedMessages[0], $messages[1], $messages[2]);
+        } elseif ($mode == "detailedHistory" && is_array($messages)) {
+			$decodedMessages = $this->decodeDecryptLoop($messages);
+			$receivedMessages = array($decodedMessages[0], $messages[1], $messages[2]);
         }
 
         return $receivedMessages;
@@ -362,8 +371,8 @@ class Pubnub {
             $this->SUBSCRIBE_KEY,
             "channel",
             $channel
-                ), $urlParams);
-        ;
+		), $urlParams);
+        
 
         $receivedMessages = $this->decodeAndDecrypt($response, "detailedHistory");
 
@@ -397,7 +406,15 @@ class Pubnub {
             '0',
             $limit
         ));
-        ;
+        
+		//TODO: <timeout> and <message too large> check 
+		if(!is_array($response)) {
+			$response = array(
+				0 => array(),
+			);
+		}
+
+		$messages = $response[0];
 
         $receivedMessages = $this->decodeAndDecrypt($response);
 

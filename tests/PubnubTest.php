@@ -18,9 +18,12 @@ class PubnubTest extends PHPUnit_Framework_TestCase {
 	}
 
 	public static function setUpBeforeClass() {
-		$tmpDir = sys_get_temp_dir();
-		exec(sprintf('php %s/subscribeOut.txt > /dev/null &',$tmpDir), $Out);
-		exec(sprintf('php %s/presenceTest.php > /dev/null &',$tmpDir), $Out);
+		$currentDir = __DIR__;
+		$files = array('subscribeTest.php', 'presenceTest.php');
+		foreach($files as $file){
+			$command = sprintf('php %s/%s > /dev/null &',$currentDir,$file);
+			exec($command, $out);
+		}
 	}
 
 ## ------------------ ENCRIPTION TEST ------------------ ##

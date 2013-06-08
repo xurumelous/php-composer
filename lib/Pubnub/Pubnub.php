@@ -343,26 +343,16 @@ class Pubnub {
 
         $channel = $args['channel'];
         $urlParams = "";
-
-        if ($args['count'] || $args['start'] || $args['end'] || $args['reverse']) {
-
-            $urlParamSep = "?";
-            if (isset($args['count'])) {
-                $urlParams .= $urlParamSep . "count=" . $args['count'];
-                $urlParamSep = "&";
-            }
-            if (isset($args['start'])) {
-                $urlParams .= $urlParamSep . "start=" . $args['start'];
-                $urlParamSep = "&";
-            }
-            if (isset($args['end'])) {
-                $urlParams .= $urlParamSep . "end=" . $args['end'];
-                $urlParamSep = "&";
-            }
-            if (isset($args['reverse'])) {
-                $urlParams .= $urlParamSep . "reverse=" . $args['reverse'];
-            }
-        }
+		
+		$urlParamsKeys = array('count', 'start', 'end', 'reverse');
+		$urlParamsArray = array();
+		foreach($urlParamsKeys as $key){
+			if(!isset($args[$key])) continue;
+			$urlParamsArray[] = sprintf('%s=%s',$key,$args[$key]);
+		}
+		if(count($urlParamsArray)) {
+			$urlParams = '?'.implode('&',$urlParamsArray);
+		}
 
         $response = $this->_request(array(
             'v2',
@@ -370,13 +360,22 @@ class Pubnub {
             "sub-key",
             $this->SUBSCRIBE_KEY,
             "channel",
-            $channel
+            $channel,
 		), $urlParams);
         
 
         $receivedMessages = $this->decodeAndDecrypt($response, "detailedHistory");
+		
+		//TODO: <timeout> and <message too large> check 
+		if(!is_array($receivedMessages)) $receivedMessages = array();
+		
+		$result = array(
+			'messages'	=> isset($receivedMessages[0]) ? $receivedMessages[0] : array(),
+			'date_from'	=> isset($receivedMessages[1]) ? $receivedMessages[1] : 0,
+			'date_to'	=> isset($receivedMessages[2]) ? $receivedMessages[2] : 0,
+		);
 
-        return $receivedMessages;
+        return $result;
     }
 
     /**
@@ -434,8 +433,13 @@ class Pubnub {
             'time',
             '0'
         ));
+		
+		$result = (isset($response[0])) ? $response[0] : 0;
+		if(is_string($result)){
+			$result = intval(substr($result, 0, 10));
+		}
 
-        return $response[0];
+        return $result;
     }
 
     /**
@@ -485,7 +489,7 @@ class Pubnub {
         curl_setopt($ch, CURLOPT_URL, $urlString);
 
         if ($this->SSL) {
-            curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, true);
+            curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
             curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 2);
 
 
@@ -505,14 +509,17 @@ class Pubnub {
 
         curl_close($ch);
 
-        $JSONdecodedResponse = json_decode($output, true);
+        $JSONdecodedResponse = json_decode($output, true, 512, JSON_BIGINT_AS_STRING);
 
-        if ($JSONdecodedResponse != null)
+        if ($JSONdecodedResponse != null) {
             return $JSONdecodedResponse;
-        elseif ($curlError == 28)
+		} elseif ($curlError == 28) {
             return "_PUBNUB_TIMEOUT";
-        elseif ($curlResponseCode == 400 || $curlResponseCode == 404)
+		} elseif ($curlError == 60) {
+            //SSL CERTIFICATE PROBLEM";
+		} elseif ($curlResponseCode == 400 || $curlResponseCode == 404) {
             return "_PUBNUB_MESSAGE_TOO_LARGE";
+		}
     }
 
     /**

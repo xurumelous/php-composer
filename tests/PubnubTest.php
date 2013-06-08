@@ -152,10 +152,12 @@ class PubnubTest extends PHPUnit_Framework_TestCase {
 		$history = $pubnub->detailedHistory(array(
 			'channel' => self::$channel,
 			'count' => $count,
-			'end' => '13466530169226760'
+			'end' => time(),
+//			'end' => '13466530169226760'
 		));
+
 		$this->assertNotEmpty($history);
-		$this->assertGreaterThanOrEqual(count($history), $count);
+		$this->assertGreaterThanOrEqual(count($history['messages']),$count);
 	}
 
 ## ------------------ TIME TEST ------------------ ##

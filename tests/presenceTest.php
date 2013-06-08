@@ -1,7 +1,6 @@
 <?php
 require_once(__DIR__.'/../lib/autoloader.php');
 
-//ssl off
 $pubnub = new \Pubnub\Pubnub( 'demo', 'demo', false , false, false, 'IUNDERSTAND.pubnub.com');
 $pubnub->presence(array(
     'channel'  => 'testChannel',

@@ -153,7 +153,6 @@ class PubnubTest extends PHPUnit_Framework_TestCase {
 			'channel' => self::$channel,
 			'count' => $count,
 			'end' => time(),
-//			'end' => '13466530169226760'
 		));
 
 		$this->assertNotEmpty($history);

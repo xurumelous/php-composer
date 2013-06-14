@@ -1,4 +1,4 @@
-Installation - ALPHA!!!!
+Installation - (Beta)
 ------------
 
 Install with Composer

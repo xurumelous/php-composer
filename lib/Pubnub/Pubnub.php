@@ -608,7 +608,7 @@ class Pubnub {
 
         $response = array();
         foreach ($urls as $data) {
-            $JSONdecodedResponse = json_decode($data['output'], true, 512, JSON_BIGINT_AS_STRING);
+            $JSONdecodedResponse = json_decode($data['output'], true);
 
             if ($JSONdecodedResponse != null) {
                 $response[$data['channel']] = $JSONdecodedResponse;
